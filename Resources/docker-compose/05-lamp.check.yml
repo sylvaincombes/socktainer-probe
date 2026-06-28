@@ -1,0 +1,7 @@
+name: "LAMP stack (PHP + Apache + MySQL)"
+services: [mysql, php]
+expect_up: true
+expect_ps_contains: mysql
+expect_down: true
+skip: false
+skip_reason: ""

@@ -1,0 +1,7 @@
+name: "Postgres + Adminer"
+services: [db, adminer]
+expect_up: true
+expect_ps_contains: db
+expect_down: true
+skip: false
+skip_reason: ""

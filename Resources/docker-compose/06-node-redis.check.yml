@@ -1,0 +1,7 @@
+name: "Node.js + Redis"
+services: [redis, app]
+expect_up: true
+expect_ps_contains: redis
+expect_down: true
+skip: false
+skip_reason: ""

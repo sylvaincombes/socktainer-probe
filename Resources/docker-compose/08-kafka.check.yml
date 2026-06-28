@@ -1,0 +1,7 @@
+name: "Kafka + Zookeeper"
+services: [zookeeper, kafka]
+expect_up: true
+expect_ps_contains: zookeeper
+expect_down: true
+skip: false
+skip_reason: ""

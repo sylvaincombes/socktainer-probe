@@ -1,0 +1,7 @@
+name: "basic lifecycle (up / ps / down)"
+services: [alpha, beta]
+expect_up: true
+expect_ps_contains: alpha
+expect_down: true
+skip: false
+skip_reason: ""

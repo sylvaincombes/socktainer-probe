@@ -1,0 +1,7 @@
+name: "inter-container DNS (service name resolution)"
+services: [server, client]
+expect_up: true
+expect_ps_contains: server
+expect_down: true
+skip: false
+skip_reason: ""

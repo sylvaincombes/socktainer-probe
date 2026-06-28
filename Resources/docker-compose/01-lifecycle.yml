@@ -1,0 +1,7 @@
+services:
+  alpha:
+    image: alpine
+    command: ["sh", "-c", "while true; do echo alpha-alive; sleep 5; done"]
+  beta:
+    image: alpine
+    command: ["sh", "-c", "while true; do echo beta-alive; sleep 5; done"]

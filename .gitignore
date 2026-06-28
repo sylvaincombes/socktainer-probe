@@ -1,0 +1,23 @@
+# Swift build artifacts
+.build/
+*.o
+*.d
+
+# Xcode
+*.xcuserstate
+*.xcbkptlist
+DerivedData/
+xcuserdata/
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# Session data (local run history — not committed)
+.sessions/
+
+# Config (contains local paths)
+.socktainer-probe/
+
+# Environment
+.env

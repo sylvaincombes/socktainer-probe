@@ -1,0 +1,9 @@
+services:
+  server:
+    image: alpine
+    command: ["sh", "-c", "echo SERVER_READY && sleep 30"]
+  client:
+    image: alpine
+    command: ["sh", "-c", "sleep 2 && ping -c 1 server && echo DNS_OK"]
+    depends_on:
+      - server

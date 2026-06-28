@@ -1,0 +1,9 @@
+services:
+  worker:
+    image: alpine
+    command: ["sh", "-c", "echo WORKER_DONE && sleep 2"]
+  monitor:
+    image: alpine
+    command: ["sh", "-c", "echo MONITOR_DONE && sleep 2"]
+    depends_on:
+      - worker

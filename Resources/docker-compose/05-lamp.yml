@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: appdb
+    volumes:
+      - lamp_db:/var/lib/mysql
+
+  php:
+    image: php:8.3-apache
+    ports:
+      - "18081:80"
+    volumes:
+      - lamp_www:/var/www/html
+    depends_on:
+      - mysql
+
+volumes:
+  lamp_db:
+  lamp_www:

@@ -1,0 +1,7 @@
+name: "multi-service with depends_on"
+services: [worker, monitor]
+expect_up: true
+expect_ps_contains: worker
+expect_down: true
+skip: false
+skip_reason: ""
