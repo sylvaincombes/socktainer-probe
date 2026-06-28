@@ -68,6 +68,34 @@ public func runContainerSection(sock: DockerCLI) async {
         try assertEqual((after["State"] as? [String: Any])?["Status"] as? String, "running", "container should be running")
     }
 
+    // CTR-009 — regression guard for the exec/attach hang bug.
+    // A foreground docker run (attach stdout + wait) must return promptly when the container
+    // exits — driven by pipe-EOF, not blocked on the XPC fallback timeout (~10s).
+    // Tests both immediate-exit and work-then-exit shapes.
+    await check("foreground docker run closes stream and returns promptly on container exit",
+                id: "CTR-009",
+                refs: [],
+                repro: "time docker --context socktainer run --rm busybox echo hi   # should be ~1s, not ~11s") {
+        // Shape 1: immediate exit — should complete in < 5s (was: ~11s with hang)
+        let t1 = Date()
+        let out1 = try await sock.runContainer(image: "public.ecr.aws/docker/library/busybox", cmd: ["echo", "hello-from-socktainer"])
+        let elapsed1 = Date().timeIntervalSince(t1)
+        try assertContains(out1, "hello-from-socktainer")
+        try assert(elapsed1 < 5.0,
+                   "immediate exit took \(String(format: "%.1f", elapsed1))s — expected < 5s (exec-hang regression?)")
+
+        // Shape 2: work-then-exit (sleep 2) — total should be ~3s, not 12s
+        let t2 = Date()
+        let out2 = try await sock.runContainer(image: "public.ecr.aws/docker/library/busybox",
+                                               cmd: ["sh", "-c", "echo start; sleep 2; echo done"])
+        let elapsed2 = Date().timeIntervalSince(t2)
+        try assertContains(out2, "done")
+        try assert(elapsed2 < 8.0,
+                   "sleep-2 run took \(String(format: "%.1f", elapsed2))s — expected < 8s (exec-hang regression?)")
+        try assert(elapsed2 >= 1.5,
+                   "sleep-2 run returned in \(String(format: "%.1f", elapsed2))s — suspiciously fast, sleep may not have run")
+    }
+
     await xfail("docker top returns running processes in a container",
                 id: "CTR-008",
                 reason: "GET /containers/{id}/top not yet implemented in Socktainer 1.0.0",

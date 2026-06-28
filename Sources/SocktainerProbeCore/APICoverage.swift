@@ -513,7 +513,7 @@ private let routeTestMap: [String: String] = [
     "POST /containers/{id}/start":   "CTR-001…005",
     "POST /containers/{id}/stop":    "CTR-001…005",
     "DELETE /containers/{id}":       "CTR-001…005, WT-001, WT-002",
-    "POST /containers/{id}/attach":  "CTR-001…005, WS-001…004",
+    "POST /containers/{id}/attach":  "CTR-001…005, CTR-009, WS-001…004",
     "GET /containers/{id}/attach/ws":"WS-001…004",
     "POST /containers/{id}/kill":    "EVT-009, EVT-010",
     "POST /containers/{id}/rename":  "CTR-006, EVT-019",
